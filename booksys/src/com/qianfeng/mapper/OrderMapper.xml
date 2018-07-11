@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qianfeng.dao.IOrderDao">
+	
+	<resultMap type="orders" id="orderMapper">
+		<id property="id" column="id"/>
+		<result property="orderNum" column="ordernum"/>
+		<result property="totalPrice" column="totalprice" />
+		<result property="createDate" column="createdate"/>
+		<result property="state" column="state" />
+		<association property="buyer" resultMap="com.qianfeng.dao.IUserDao.userMapper" />
+	</resultMap>
+	
+	<!-- 获取自增的值 -->
+	<insert id="add" parameterType="orders" useGeneratedKeys="true" keyProperty="id">
+		insert into orders(ordernum,totalprice,createdate,state,buyerId)
+		values(#{orderNum}, #{totalPrice}, #{createDate}, 0, #{buyer.id})
+	</insert>
+	
+    <select id="count" resultType="int">
+        select count(1) from orders
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qianfeng.dao.IBookDao">
+
+	<resultMap type="books" id="bookMapper">
+		<id property="id" column="id"/>
+		<result property="bookName" column="bookname"/>
+		<result property="price" column="price"/>
+		<result property="stock" column="stock"/>
+		<result property="img" column="img"/>
+	</resultMap>
+	
+	<select id="findByIndex" parameterType="map" resultMap="bookMapper">
+		select id,bookname,price,stock,img from books limit #{index},#{size}
+	</select>
+	<select id="count" resultType="int">
+		select count(*) from books
+	</select>
+	<select id="findByIds" parameterType="list" resultMap="bookMapper">
+		select id,bookname,price,stock,img from books where id in
+		<foreach collection="list" item="i" open="(" close=")" separator=",">
+			#{i}
+		</foreach>
+	</select>
+
+</mapper>
