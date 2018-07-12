@@ -25,5 +25,12 @@
 			#{i}
 		</foreach>
 	</select>
+	<select id="findStock" parameterType="int" resultType="int">
+	   select stock from books where id = #{id}
+	</select>
+	
+	<update id="updateStock" parameterType="map">
+	   update books set stock = #{stock} where id = #{id}
+	</update>
 
 </mapper>

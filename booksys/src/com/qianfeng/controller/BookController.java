@@ -1,5 +1,7 @@
 package com.qianfeng.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,4 +34,20 @@ public class BookController {
 		}
 		return bean;	
 	}
+	
+    @RequestMapping(value="/stock", method=RequestMethod.POST)
+    public @ResponseBody JsonBean findStock(Integer bid, HttpServletResponse response) {
+        
+        JsonBean bean = new JsonBean();
+        try {
+           Integer stock = bookService.findStock(bid);
+            bean.setCode(1);
+            bean.setMsg(stock);
+        }catch(Exception e) {
+            bean.setCode(0);
+            bean.setMsg(e.getMessage());
+        }
+        return bean;    
+    }
+	
 }

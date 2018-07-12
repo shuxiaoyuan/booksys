@@ -12,4 +12,10 @@ public interface IBookDao extends IBaseDao<Books>{
 	
 	public List<Books> findByIds(List<String> ids);
 	
+	// 根据书的 id 查找其对应的库存
+	public Integer findStock(Integer bid);
+	
+	// 更新库存
+	public void updateStock(Map<String, Object> bookInfo);
+	
 }

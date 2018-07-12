@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qianfeng.entity.OrderItem;
 import com.qianfeng.entity.Orders;
+import com.qianfeng.service.IBookService;
 import com.qianfeng.service.IOrderService;
 import com.qianfeng.vo.JsonBean;
 import com.qianfeng.vo.PageBean;
@@ -23,6 +24,9 @@ public class OrderController {
 	@Autowired
 	private IOrderService orderService;
 	
+	@Autowired
+	private IBookService bookService;
+	
 	@RequestMapping(value="/orders", method=RequestMethod.POST)
 	public @ResponseBody JsonBean addOrder(String[] ids, String[] nums, Double totalPrice, HttpSession session, HttpServletResponse response) {
 		
@@ -31,6 +35,17 @@ public class OrderController {
 		try {
 			Orders orders = orderService.addOrderInfo(totalPrice, name); 
 			orderService.addOrderItems(ids, nums, orders);
+			
+			// 计算新的库存
+			Integer[] bids = new Integer[ids.length];
+			Integer[] stocks = new Integer[nums.length];
+			for(int i = 0; i < ids.length; i++) {
+			    bids[i] = Integer.parseInt(ids[i]);
+			    stocks[i] = bookService.findStock(bids[i]) - Integer.parseInt(nums[i]);
+			}
+			
+			// 更新库存
+			bookService.updateStock(bids, stocks);
 			
 			// 添加成功，清空购物车
 			Cookie cookie = new Cookie("cartids", "");

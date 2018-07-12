@@ -55,4 +55,26 @@ public class BookService  implements IBookService{
 		return pageBean;
 	}
 
+    @Override
+    public Integer findStock(Integer bid) {
+        // TODO Auto-generated method stub
+        return bookDao.findStock(bid);
+    }
+
+    @Override
+    public void updateStock(Integer[] bids, Integer[] stocks) {
+        // TODO Auto-generated method stub
+        for(int i = 0; i < bids.length; i++) {
+            try {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", bids[i]);
+                map.put("stock", stocks[i]);
+                bookDao.updateStock(map);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

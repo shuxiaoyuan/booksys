@@ -58,7 +58,7 @@
 function loadData(page){
     $.ajax({
         type:"get",
-        url:"orders/page/1",
+        url:"orders/page/"+page,
         dataType:"json",
         success:function(data){
             if(data.code == 1){

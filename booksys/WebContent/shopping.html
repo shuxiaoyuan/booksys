@@ -69,7 +69,7 @@
                         html += '<td class="thumb"><img src="' + item.img + '" /></td>';
                         html += '<td class="title">' + item.bookName + '</td>';
                         html += '<td><input type="hidden" name="ids" value="' + item.id + '" />'
-                              + '<input class="input-text" type="text" name="nums" value="1" onblur="cal(this)" /></td>';
+                              + '<input class="input-text" type="text" name="nums" value="1" oninput="cal(this)" /></td>';
                         html += '<td>￥<span id="pId">' + item.price + '</span></td>';
                         html += '</tr>';
                         
@@ -85,7 +85,29 @@
 </script>
 
 <script type="text/javascript">
+
     function cal(ele) {
+    	
+    	// 判断此书库存是否充足
+        $.ajax({
+            type:"post",
+            url:"stock",
+            data:"bid=" + $($(ele).prev()).attr("value"),
+            dataType:"json",
+            success:function(data) {
+                if (data.code == 1) {
+                    if($(ele).val() > data.msg) {
+                    	alert("库存不足！(剩余" + data.msg +")");
+                    	$(ele).val(1);
+                    	cal(ele);
+                        return false;
+                    }
+                } else {
+                    alert(data.msg);
+                    return false;
+                }
+            }
+        })
     	
         // 输入不合法处理
         if (parseInt($(ele).val()) <= 0 || parseInt($(ele).val()) != $(ele).val()) {
