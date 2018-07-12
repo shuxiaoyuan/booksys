@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qianfeng.dao.IUserDao">
+
+	<resultMap type="user" id="userMapper">
+		<id property="id" column="id"/>
+		<result property="userName" column="username"/>
+		<result property="passWord" column="password"/>
+		<result property="email" column="email"/>
+		<result property="islock" column="islock"/>
+	</resultMap>
+	
+	<select id="findByName" parameterType="string" resultMap="userMapper">
+		select id, username, password, email, islock from user where username=#{name};
+	</select>
+	<insert id="add" parameterType="user">
+		insert into user(username,password,email,islock) values(#{userName}, #{passWord}, #{email}, 0);
+	</insert>
+
+</mapper>
