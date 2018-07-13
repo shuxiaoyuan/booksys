@@ -1,6 +1,7 @@
 package com.qianfeng.controller;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.qianfeng.entity.User;
 import com.qianfeng.service.IAdminService;
@@ -34,6 +36,7 @@ public class LoginController {
 			String sessionId = session.getId();
 			Cookie cookie = new Cookie("JSESSIONID", sessionId);
 			cookie.setMaxAge(1800);
+			cookie.setPath("/booksys/");
 			response.addCookie(cookie);
 			
 			bean.setCode(1);
@@ -56,6 +59,7 @@ public class LoginController {
 			String sessionId = session.getId();
 			Cookie cookie = new Cookie("JSESSIONID", sessionId);
 			cookie.setMaxAge(1800);
+			cookie.setPath("/booksys/");
 			response.addCookie(cookie);
 			bean.setCode(1);
 		} catch (Exception e) {
@@ -97,4 +101,37 @@ public class LoginController {
 		}
 		return bean;
 	}
+	
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+	    // 干掉 session
+	    HttpSession session = request.getSession();
+	    session.invalidate();
+	    
+	    // 干掉 cookie
+        Cookie cookie = new Cookie("JSESSIONID", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/booksys/");
+        response.addCookie(cookie);
+        
+        return new ModelAndView("redirect:login.html");
+	    
+	}
+	
+    @RequestMapping("/admin_logout")
+    public ModelAndView adminLogout(HttpServletRequest request, HttpServletResponse response) {
+        // 干掉 session
+        HttpSession session = request.getSession();
+        session.invalidate();
+        
+        // 干掉 cookie
+        Cookie cookie = new Cookie("JSESSIONID", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/booksys/");
+        response.addCookie(cookie);
+        
+        return new ModelAndView("redirect:admin_login.html");
+        
+    }
+	
 }

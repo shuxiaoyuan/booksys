@@ -29,6 +29,7 @@ public class CartController {
 			String info = cartService.addCart(bookIds, cartId);
 			Cookie cookie = new Cookie("cartids", info);
 			cookie.setMaxAge(30 * 24 * 3600);
+			cookie.setPath("/booksys/");
 			response.addCookie(cookie);		
 			 
 			bean.setCode(1);
