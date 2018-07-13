@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qianfeng.dao.IAdminDao">
+
+	<resultMap type="admin" id="adminMapper">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="password" column="password"/>
+		<result property="email" column="email"/>
+	</resultMap>
+	
+	<select id="findByName" parameterType="string" resultMap="adminMapper">
+		select id, name, password, email from admin where name=#{name};
+	</select>
+
+</mapper>

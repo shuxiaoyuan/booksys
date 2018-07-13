@@ -12,22 +12,17 @@
 <body>
 <div id="header" class="wrap">
 	<div id="logo">网上书城</div>
-	<div id="navbar">
-		<form method="get" name="search" action="">
-			搜索：<input class="input-text" type="text" name="keywords" /><input class="input-btn" type="submit" name="submit" value="" />
-		</form>
-	</div>
 </div>
 <div id="login">
-	<h2>用户登陆</h2>
-	<form id="loginForm" method="post" action="">
+	<h2>管理员登录</h2>
+	<form id="adminLoginForm" method="post" action="">
 		<dl>
 			<dt>用户名：</dt>
 			<dd><input class="input-text" type="text" name="userName" /></dd>
 			<dt>密　码：</dt>
 			<dd><input class="input-text" type="password" name="passWord" /></dd>
 			<dt></dt>
-			<dd class="button"><input class="input-btn" type="submit" name="submit" value="" /><input class="input-reg" type="button" name="register" value="" onclick="window.location='register.html';" /></dd>
+			<dd class="button"><input class="input-btn" type="submit" name="submit" value="" /></dd>
 		</dl>
 	</form>
 </div>
@@ -38,7 +33,7 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#loginForm").validate({
+		$("#adminLoginForm").validate({
 			rules: {
 				userName: "required",
 				password: {
@@ -47,7 +42,7 @@
 				}
 			},
 			messages: {
-				userName: "必须输入用户名",
+				userName: "必须输入管理员用户名",
 				password: {
 					required: "必须输入密码",
 					minlength: "密码长度不能少于6位"
@@ -57,12 +52,12 @@
 			submitHandler: function() {
 				$.ajax({
 					type:"post",
-					url:"login",
-					data:$("#loginForm").serialize(),
+					url:"adminLogin",
+					data:$("#adminLoginForm").serialize(),
 					dataType:"json",
 					success:function(data){
 						if(data.code == 1){
-							window.location.href = "index.html"
+							window.location.href = "admin_index.html"
 						}else{
 							alert(data.msg)
 						}
