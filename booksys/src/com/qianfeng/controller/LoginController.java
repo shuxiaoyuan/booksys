@@ -59,6 +59,7 @@ public class LoginController {
 			String sessionId = session.getId();
 			Cookie cookie = new Cookie("JSESSIONID", sessionId);
 			cookie.setMaxAge(1800);
+			cookie.setPath("/booksys/");
 			response.addCookie(cookie);
 			bean.setCode(1);
 		} catch (Exception e) {
@@ -116,5 +117,21 @@ public class LoginController {
         return new ModelAndView("redirect:login.html");
 	    
 	}
+	
+    @RequestMapping("/admin_logout")
+    public ModelAndView adminLogout(HttpServletRequest request, HttpServletResponse response) {
+        // ¸Éµô session
+        HttpSession session = request.getSession();
+        session.invalidate();
+        
+        // ¸Éµô cookie
+        Cookie cookie = new Cookie("JSESSIONID", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/booksys/");
+        response.addCookie(cookie);
+        
+        return new ModelAndView("redirect:admin_login.html");
+        
+    }
 	
 }
