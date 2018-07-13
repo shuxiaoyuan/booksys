@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qianfeng.entity.User;
+import com.qianfeng.service.IAdminService;
 import com.qianfeng.service.ILoginService;
 import com.qianfeng.vo.JsonBean;
 
@@ -19,6 +20,9 @@ import com.qianfeng.vo.JsonBean;
 public class LoginController {
 	@Autowired
 	private ILoginService loginService;
+	
+	@Autowired
+	private IAdminService adminService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public @ResponseBody JsonBean login(@RequestParam("userName") String username, @RequestParam("passWord") String password, HttpSession session, HttpServletResponse response) {
@@ -37,6 +41,30 @@ public class LoginController {
 			bean.setCode(0);
 			bean.setMsg(e.getMessage());
 		}
+		return bean;
+	}
+	
+	@RequestMapping(value="/adminLogin", method=RequestMethod.POST)
+	public @ResponseBody JsonBean adminLogin(@RequestParam("userName") String adminName, @RequestParam("passWord") String password, HttpSession session, HttpServletResponse response)
+	{
+		JsonBean bean = new JsonBean();
+		
+		try {
+			adminService.login(adminName, password);
+			
+			session.setAttribute("adminname", adminName);
+			String sessionId = session.getId();
+			Cookie cookie = new Cookie("JSESSIONID", sessionId);
+			cookie.setMaxAge(1800);
+			response.addCookie(cookie);
+			bean.setCode(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bean.setCode(0);
+			bean.setMsg(e.getMessage());
+		}
+		
 		return bean;
 	}
 	

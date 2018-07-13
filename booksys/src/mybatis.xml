@@ -20,6 +20,7 @@
 		<typeAlias type="com.qianfeng.entity.Books" alias="books" />
 		<typeAlias type="com.qianfeng.entity.Orders" alias="orders" />
  		<typeAlias type="com.qianfeng.entity.OrderItem" alias="item" />
+ 		<typeAlias type="com.qianfeng.entity.Admin" alias="admin" />
 	</typeAliases>
 
 	<mappers>
