@@ -52,7 +52,7 @@
 		<!-- 前缀 -->
 		<property name="prefix" value="/"></property>
 		<!-- 后缀 -->
-		<property name="suffix" value=".jsp"></property>
+		<property name="suffix" value=".html"></property>
 
 	</bean>
 

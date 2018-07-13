@@ -50,6 +50,7 @@ public class OrderController {
 			// 添加成功，清空购物车
 			Cookie cookie = new Cookie("cartids", "");
 			cookie.setMaxAge(0);
+			cookie.setPath("/booksys/");
 			response.addCookie(cookie);
 			
 			bean.setCode(1);
