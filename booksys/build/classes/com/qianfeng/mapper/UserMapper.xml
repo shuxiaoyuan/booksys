@@ -19,5 +19,13 @@
 	<insert id="add" parameterType="user">
 		insert into user(username,password,email,islock) values(#{userName}, #{passWord}, #{email}, 0);
 	</insert>
+	
+	<select id="isLock" resultType="_int">
+	   select islock from user where username = #{name}
+	</select>
+	
+	<update id="updateIsLock" parameterType="user">
+	   update user set islock = #{islock} where id = #{id}
+	</update>
 
 </mapper>

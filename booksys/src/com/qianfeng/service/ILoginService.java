@@ -11,4 +11,10 @@ public interface ILoginService {
 	public void register(User user);
 	
 	public boolean userIsExist(String name);
+	
+	public boolean userIsLock(String name);
+	
+	// 锁定用户账户
+	public void lockUser(User user);
+	
 }

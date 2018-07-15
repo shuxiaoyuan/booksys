@@ -8,4 +8,9 @@ public interface IUserDao extends IBaseDao<User> {
 //	public User findById();
 	
 	public User findByName(String name);
+	
+	public int isLock(String name);
+	
+	public void updateIsLock(User user);
+	
 }
