@@ -10,5 +10,10 @@ public interface IOrderItemDao extends IBaseDao<OrderItem>{
     
     // 查询订单明细
     public List<OrderItem> findByIndex(Map<String, Object> info);
+    /*
+     * 
+     * 张慧
+     */
+    public List<OrderItem> adminFindByIndex(Map<String, Object> map);
 
 }

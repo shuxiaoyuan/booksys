@@ -28,4 +28,17 @@
         where u.username = #{name} and o.id
         in (select t.id from (select id from orders limit #{index},#{size}) t)
     </select>
+    
+    <select id="adminFindByIndex" parameterType="map" resultMap="itemMapper">
+        select item.*, o.*, b.*, u.* from orders o
+        INNER JOIN orderitems item
+        on o.id = item.orderId
+        INNER JOIN books b
+        on b.id = item.bookId
+        INNER JOIN user u
+        on u.id = o.buyerId
+        where o.id
+        in (select t.id from (select id from orders limit #{index},#{size}) t)
+    </select>
+    
 </mapper>

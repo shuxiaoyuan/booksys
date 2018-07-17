@@ -103,5 +103,24 @@ public class OrderController {
         return bean;
     }
     
+    /*
+     * уе╩ш
+     */
+    @RequestMapping(value="/adminOrders/page/{page}", method=RequestMethod.GET)
+    public @ResponseBody JsonBean adminFindOrderInfo(@PathVariable("page") int page, HttpSession session) {
+        JsonBean bean = new JsonBean();
+
+        try {
+            PageBean<OrderItem> pageBean = orderService.amdinFindItemByIndex(page);
+            bean.setCode(1);
+            bean.setMsg(pageBean);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            bean.setCode(0);
+            bean.setMsg(e.getMessage());
+        }
+        return bean;  
+    }
 	
 }

@@ -9,14 +9,14 @@
 </head>
 <body>
 <div id="header" class="wrap">
-    <div id="logo">网上书城</div>
+    <div id="logo">网上书城后台管理员界面</div>
     <div id="navbar">
         <div class="userMenu">
             <ul>
-                <li><a href="index.html">首页</a></li>
-                <li class="current"><a href="orderlist.html">我的订单</a></li>
-                <li><a href="shopping.html">购物车</a></li>
-                <li><a href="logout">注销</a></li>
+                <li><a href="admin_index.html">图书管理</a></li>
+                <li><a href="#">用户管理</a></li>
+                <li class="current"><a href="admin_orderlist.html">订单管理</a></li>
+                <li><a href="admin_logout">注销</a></li>
             </ul>
         </div>
         <form method="get" name="search" action="">
@@ -58,7 +58,7 @@
 function loadData(page){
     $.ajax({
         type:"get",
-        url:"orders/page/"+page,
+        url:"adminOrders/page/"+page,
         dataType:"json",
         success:function(data){
             if(data.code == 1){
@@ -72,10 +72,10 @@ function loadData(page){
                         html += '<tr>';
                         html += '<td colspan="6" align="right">';
                         html += '总计金额：￥' + infos[index - 1].orders.totalPrice + '元';
-                        if(infos[index - 1].orders.state == 1){
-                            html += '<button class="confirm-goods" id="' + oid + '">确认收货</button>';
-                        } else if(infos[index - 1].orders.state == 2) {
-                        	html += '<button class="return-goods" id="' + oid + '">申请退货</button>';
+                        if(infos[index - 1].orders.state == 0){
+                            html += '<button class="confirm-goods" id="' + oid + '">确认发货</button>';
+                        } else if(infos[index - 1].orders.state == 3) {
+                        	html += '<button class="return-goods" id="' + oid + '">同意退货</button>';
                         }
                         html += '</td>';
                         html += '</tr>';
@@ -101,18 +101,19 @@ function loadData(page){
                     html += '</tr>';
                     
                     if(index == infos.length - 1){
-                        html += '</tr>';
-                        html += '<tr>';
-                        html += '<td colspan="6" align="right">';
-                        html += '总计金额：￥' + infos[index].orders.totalPrice + '元';
-                        if(infos[index].orders.state == 1){
-                        	html += '<button class="confirm-goods" id="' + oid + '">确认收货</button>';
-                        } else if(infos[index].orders.state == 2) {
-                        	html += '<button class="return-goods" id="' + oid + '">申请退货</button>';
-                        }
-                        html += '</td>';
-                        html += '</tr>';
-                    }
+	                    html += '</tr>';
+	                    html += '<tr>';
+	                    html += '<td colspan="6" align="right">';
+	                    html += '总计金额：￥' + infos[index - 1].orders.totalPrice + '元';
+	                    if(infos[index].orders.state == 0){
+	                        html += '<button class="confirm-goods" id="' + oid + '">确认发货</button>';
+	                    } else if(infos[index].orders.state == 3) {
+	                    	html += '<button class="return-goods" id="' + oid + '">同意退货</button>';
+	                    }
+	                    html += '</td>';
+	                    html += '</tr>';
+	                    oid = infos[index].orders.orderNum;
+                    } 
                     
                     $("#tbid").append($(html));
                 })
@@ -144,20 +145,20 @@ $(function() {
         });
 	}
 	
-	// 用户确认收货
+	// 管理员确认发货
 	$("#tbid").on("click", ".confirm-goods", function() {
-	    if(confirm("确认收货？")) {
+	    if(confirm("确认发货？")) {
 	    	var orderNum = $(this).attr("id");
-	    	updateOrdersState(orderNum, 2);
+	    	updateOrdersState(orderNum, 1);
 	    	loadData($("#currentPage").text());
 	    }
 	});
 	
-	// 用户申请退货
+	// 管理员同意退货
     $("#tbid").on("click", ".return-goods", function() {
-        if(confirm("确认退货？")) {
+        if(confirm("同意退货？")) {
         	var orderNum = $(this).attr("id");
-            updateOrdersState(orderNum, 3);
+            updateOrdersState(orderNum, 4);
             loadData($("#currentPage").text());
         }
     });

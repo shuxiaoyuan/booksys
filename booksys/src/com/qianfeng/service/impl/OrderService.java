@@ -135,4 +135,41 @@ public class OrderService implements IOrderService{
         }
     }
 	
+    /*
+     * 
+     * уе╩ш(non-Javadoc)
+     * @see com.qianfeng.service.IOrderService#amdinFindItemByIndex(int)
+     */
+    @Override
+    public PageBean<OrderItem> amdinFindItemByIndex(int page) {
+        PageBean<OrderItem> pageInfo = new PageBean<>();
+        pageInfo.setCurrentPage(page);
+        
+        try {
+            int count = orderDao.count();
+            pageInfo.setCount(count);
+            
+            int totalPage = 0;
+            if(count % pageInfo.getSize() == 0) {
+                totalPage = count / pageInfo.getSize();
+            }else {
+                totalPage = count / pageInfo.getSize() + 1;
+            }
+            pageInfo.setTotalPage(totalPage);
+            
+            Map<String, Object> map = new HashMap<>();
+            map.put("index", (page - 1) * pageInfo.getSize());
+            map.put("size", pageInfo.getSize());
+            
+            List<OrderItem> items = itemDao.adminFindByIndex(map);
+            
+            pageInfo.setPageInfos(items);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return pageInfo;
+    }
+    
 }

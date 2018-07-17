@@ -14,5 +14,10 @@ public interface IOrderService {
     
     // 更新订单状态
     public void updateState(Orders order);
+    /*
+     * 
+     * 张慧
+     */
+    public PageBean<OrderItem> amdinFindItemByIndex(int page);
 	
 }
