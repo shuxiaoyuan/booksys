@@ -14,7 +14,7 @@ function pagebind(info){
 	html += '<a href="javascript:loadData(1)">首页</a>';
 	for(var i = 1; i <= info.totalPage; i++){
 		if(i == info.currentPage){
-			html += '<span class="current">' + i + '</span>';
+			html += '<span class="current" id="currentPage">' + i + '</span>';
 		}else{
 			html += '<a href="javascript:loadData(' + i + ')">' + i + '</a>';
 		}

@@ -82,5 +82,26 @@ public class OrderController {
         return bean;
         
     }
+    
+    
+    // ¸ü¸Ä¶©µ¥×´Ì¬
+    @RequestMapping(value="/updateOrdersState", method=RequestMethod.POST)
+    public @ResponseBody JsonBean updateOrderState(String orderNum, String state) {
+        JsonBean bean = new JsonBean();
+        Orders order = new Orders();
+        order.setOrderNum(orderNum);
+        order.setState(Integer.parseInt(state));
+        try {
+            orderService.updateState(order);
+            bean.setCode(1);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            bean.setCode(0);
+            bean.setMsg(e.getMessage());
+        }
+        return bean;
+    }
+    
 	
 }

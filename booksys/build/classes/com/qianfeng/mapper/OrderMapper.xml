@@ -23,4 +23,9 @@
     <select id="count" resultType="int">
         select count(1) from orders
     </select>
+    
+    <update id="update" parameterType="orders">
+        update orders set state = #{state} where ordernum = #{orderNum}
+    </update>
+    
 </mapper>

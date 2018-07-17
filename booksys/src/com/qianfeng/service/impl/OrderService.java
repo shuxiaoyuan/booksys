@@ -123,5 +123,16 @@ public class OrderService implements IOrderService{
         
         return pageInfo;
     }
+
+    @Override
+    public void updateState(Orders order) {
+        // TODO Auto-generated method stub
+        try {
+            orderDao.update(order);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 	
 }

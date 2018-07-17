@@ -11,5 +11,8 @@ public interface IOrderService {
 	public void addOrderItems(String[] ids, String[] nums, Orders orders);
 	
     public PageBean<OrderItem> findItemByIndex(String name, int page);
+    
+    // ¸üÐÂ¶©µ¥×´Ì¬
+    public void updateState(Orders order);
 	
 }

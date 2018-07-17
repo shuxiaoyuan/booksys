@@ -72,8 +72,10 @@ function loadData(page){
                         html += '<tr>';
                         html += '<td colspan="6" align="right">';
                         html += '总计金额：￥' + infos[index - 1].orders.totalPrice + '元';
-                        if(infos[index - 1].orders.state == 0){
-                            html += '<button>确认收货</button>';
+                        if(infos[index - 1].orders.state == 1){
+                            html += '<button class="confirm-goods" id="' + oid + '">确认收货</button>';
+                        } else if(infos[index - 1].orders.state == 2) {
+                        	html += '<button class="return-goods" id="' + oid + '">申请退货</button>';
                         }
                         html += '</td>';
                         html += '</tr>';
@@ -86,9 +88,15 @@ function loadData(page){
                     html += '<td>￥' + infos[index].book.price + ' x ' + infos[index].num + '</td>';
                     html += '<td>' + infos[index].orders.createDate + '</td>';
                     if(infos[index].orders.state == 0){
-                        html += '<td>未完成</td>';
-                    }else{
-                        html += '<td>已完成</td>';
+                        html += '<td>待发货</td>';
+                    } else if(infos[index].orders.state == 1) {
+                        html += '<td>已发货</td>';
+                    } else if(infos[index].orders.state == 2) {
+                    	html += '<td>已收货</td>';
+                    } else if(infos[index].orders.state == 3) {
+                        html += '<td>待退货</td>';
+                    } else if(infos[index].orders.state == 4) {
+                        html += '<td>退货成功</td>';
                     }
                     html += '</tr>';
                     
@@ -97,8 +105,10 @@ function loadData(page){
                         html += '<tr>';
                         html += '<td colspan="6" align="right">';
                         html += '总计金额：￥' + infos[index].orders.totalPrice + '元';
-                        if(infos[index].orders.state == 0){
+                        if(infos[index].orders.state == 1){
                             html += '<button>确认收货</button>';
+                        } else if(infos[index].orders.state == 2) {
+                            html += '<button>申请退货</button>';
                         }
                         html += '</td>';
                         html += '</tr>';
@@ -116,5 +126,44 @@ function loadData(page){
     })
 }
 </script>
+
+<script>
+$(function() {
+	
+	function updateOrdersState(orderNum, state) {
+        $.ajax({
+            type:"post",
+            url:"updateOrdersState",
+            data:"orderNum=" + orderNum + "&state=" + state,
+            dataType:"json",
+            success:function(data){
+            	if(data.code == 0) {
+            		alert("操作失败，请稍后重试！");
+            	}
+            }
+        });
+	}
+	
+	// 用户确认收货
+	$("#tbid").on("click", ".confirm-goods", function() {
+	    if(confirm("确认收货？")) {
+	    	var orderNum = $(this).attr("id");
+	    	updateOrdersState(orderNum, 2);
+	    	loadData($("#currentPage").text());
+	    }
+	});
+	
+	// 用户申请退货
+    $("#tbid").on("click", ".return-goods", function() {
+        if(confirm("确认退货？")) {
+        	var orderNum = $(this).attr("id");
+            updateOrdersState(orderNum, 3);
+            loadData($("#currentPage").text());
+        }
+    });
+})
+
+</script>
+
 </body>
 </html>
