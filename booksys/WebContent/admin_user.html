@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+<div id="header" class="wrap">
+    <div id="logo">网上书城后台管理员界面</div>
+    <div id="navbar">
+        <div class="userMenu">
+            <ul>
+                <li><a href="admin_index.html">图书管理</a></li>
+                <li class="current"><a href="admin_user.html">用户管理</a></li>
+                <li><a href="admin_orderlist.html">订单管理</a></li>
+                <li><a href="admin_logout">注销</a></li>
+            </ul>
+        </div>
+        <form method="get" name="search" action="">
+            搜索：<input class="input-text" type="text" name="keywords" /><input class="input-btn" type="submit" name="submit" value="" />
+        </form>
+    </div>
+</div>
+<div id="content" class="wrap">
+    <div class="list bookList">
+        <form id="cartForm" method="post" name="shoping" action="shopping.html" onsubmit="return false">
+            <table>
+                <tr class="title">
+                    <th class="checker"></th>
+                    <th>用户名</th>
+                    <th class="price">邮箱</th>
+                    <th class="store">是否被锁定</th>
+                    <th class="view">操作</th>
+                </tr>
+                <tbody id="tb">
+                </tbody>
+            </table>
+            <div class="page-spliter">
+            </div>
+<!--             <div class="button"><input class="input-btn" type="submit" name="submit" value="" onclick="" /></div> -->
+        </form>
+    </div>
+</div>
+<div id="footer" class="wrap">
+    XXXXXXXXX &copy; 版权所有
+
+</div>
+
+</body>
+</html>
