@@ -24,26 +24,77 @@
         </form>
     </div>
 </div>
-<div id="content" class="wrap">
-    <div class="list bookList">
-        <form id="cartForm" method="post" name="shoping" action="shopping.html" onsubmit="return false">
-            <table>
-                <tr class="title">
-                    <th class="checker"></th>
-                    <th>用户名</th>
-                    <th class="price">邮箱</th>
-                    <th class="store">是否被锁定</th>
-                    <th class="view">操作</th>
-                </tr>
-                <tbody id="tb">
-                </tbody>
-            </table>
-            <div class="page-spliter">
+<div class="container">
+       <script>
+       	$(function(){
+       		loadData()
+       	})
+       	function loadData(){
+        $.ajax({
+            type:"get",
+            url:"getAllUsers",
+            dataType:"json",
+            success:function(data){
+            	console.log(data)
+                    $("#tbu").empty();
+                    var info = data;
+                    $(info).each(function(index, item){
+                        var html = "";
+                        if(index % 2 == 0){
+                            html += '<tr>';
+                        }else{
+                            html += '<tr class="odd">';
+                        }           
+
+                        html += '<td><input type="hidden" name="userIds" value="' + item.id + '" /></td>';
+                        html += '<td class="title">' + item.userName + '</td>';
+                        html += '<td>' + item.email + '</td>';
+                        html += '<td>' + item.islock + '</td>';
+                     	
+                        html += '<td><button>锁定</button>&nbsp;<button>删除</button></td>';
+                        html += '</tr>';
+                        
+                        $("#tbu").append($(html));
+                    })
+                    
+                    pagebind(data.msg); // 绑定页码
+                    
+                
+            }
+        })
+    }
+       </script>
+        <!-- 表格  -->
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <tr>
+                        <th></th>
+                        <th>用户名</th>
+                        <th>邮箱</th>
+                        <th>状态</th>
+                    </tr>
+                    <tbody id="tbu"></tbody>
+                    <!-- <c:forEach items="${booksys/getAllUser }" var="user"> 
+                        <tr>
+                        <td>${user.id}</td>
+                        <td>${user.userName }</td>
+                            <td>${user.age }</td>
+                            <!-- <td><a  class="edit">编辑</a> <a
+                                 class="delete">删除</a></td> 
+                            <td>
+                                <a type="button"  href="${path}/user/getUser?id=${user.id}" class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                    锁定</a>
+                                <a type="button"  href="${path}/user/delUser?id=${user.id}" class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+                                    删除</a>
+                            </td>
+                        </tr>
+                    </c:forEach>-->
+                </table>
             </div>
-<!--             <div class="button"><input class="input-btn" type="submit" name="submit" value="" onclick="" /></div> -->
-        </form>
-    </div>
-</div>
+        </div>
 <div id="footer" class="wrap">
     XXXXXXXXX &copy; 版权所有
 
