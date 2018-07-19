@@ -14,4 +14,10 @@ public interface IBookService {
 	// 更新库存
 	public void updateStock(Integer[] bids, Integer[] stocks);
 	
+	// 添加图书
+	public void addBook(Books book);
+	
+	// 查询某本书在订单项中的数量
+	public Integer findCountOfOrderItems(Integer id);
+	
 }

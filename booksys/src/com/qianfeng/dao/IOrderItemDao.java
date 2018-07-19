@@ -15,5 +15,7 @@ public interface IOrderItemDao extends IBaseDao<OrderItem>{
      * уе╩ш
      */
     public List<OrderItem> adminFindByIndex(Map<String, Object> map);
+    
+    public Integer countByBookId(Integer bookId);
 
 }

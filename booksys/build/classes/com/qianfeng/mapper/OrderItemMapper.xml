@@ -41,4 +41,8 @@
         in (select t.id from (select id from orders limit #{index},#{size}) t)
     </select>
     
+    <select id="countByBookId" parameterType="int" resultType="int">
+        select count(*) from orderitems where bookId = #{bookId}
+    </select>
+    
 </mapper>

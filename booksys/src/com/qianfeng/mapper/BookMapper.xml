@@ -32,5 +32,9 @@
 	<update id="updateStock" parameterType="map">
 	   update books set stock = #{stock} where id = #{id}
 	</update>
+	
+	<insert id="add" parameterType="books">
+	   insert into books(bookName, price, stock, img) values (#{bookName}, #{price}, #{stock}, #{img})
+	</insert>
 
 </mapper>

@@ -39,8 +39,8 @@
                 <tbody id="tb">
                 </tbody>
             </table>
-            <div style="text-align:center;margin-top:20px">
-                <button style="font-size:18px">添加图书</button>
+            <div id="div-add-book" style="text-align:center;margin-top:20px">
+                <button id="add-book" style="font-size:18px">添加图书</button>
             </div>
             <div class="page-spliter">
             </div>
@@ -77,9 +77,13 @@
                         html += '<td><input type="hidden" name="bookIds" value="' + item.id + '" /></td>';
                         html += '<td class="title">' + item.bookName + '</td>';
                         html += '<td>' + item.price + '</td>';
-                        html += '<td>' + item.stock + '</td>';
+                        if(parseInt(item.stock) == -1) {
+                        	html += '<td>已下架</td>';
+                        } else {
+                        	html += '<td>' + item.stock + '</td>';
+                        }
                         html += '<td class="thumb"><img src="' + item.img + '" /></td>';
-                        html += '<td><button>修改</button>&nbsp;<button>删除</button></td>';
+                        html += '<td><button>修改</button>&nbsp;<button class="delete-book" id="' + item.id + '">删除</button></td>';
                         html += '</tr>';
                         
                         $("#tb").append($(html));
@@ -96,26 +100,89 @@
     }
 </script>
 <script type="text/javascript">
-    $("#cartForm").submit(function(){
+    $(function() {
         
-        if($(":checkbox:checked").length < 1){
-            alert("未选中任何书籍，无法添加到购物车");
-            return;
-        }
-        
-        $.ajax({
-            type:"post",
-            url:"carts",
-            data:$("#cartForm").serialize(),
-            dataType:"json",
-            success:function(data){
-                if(data.code == 1){
-                    window.location.href = "shopping.html";
+    	// 删除图书
+        $("#tb").on("click", ".delete-book", function() {
+        	var bid = $(this).attr("id");
+            $.ajax({
+                type:"post",
+                url:"deleteBook",
+                data:"bid=" + bid,
+                dataType:"json",
+                success:function(data){
+                    if(data.code == 0) {
+                        alert(data.msg);
+                    } else if (data.code == 1) {
+                    	alert("删除成功！");
+                    }
                 }
-            }
+            });
+            // 重新载入当前页
+            loadData($("#currentPage").text());
+        });
+    	
+    	
+    	// 
+    	
+    	
+    	// 添加图书
+    	$("#div-add-book").on("click", "#add-book", function() {
+    		var html = '<tr id="new-book">';
+    		html += '<td>' + '<input type="hidden" name="book-id" />' + '</td>';
+            html += '<td class="title">书名：' + '<input type="text" id="book-name" size="20" />' + '</td>';
+            html += '<td>￥' + '<input class="input-text" type="text" id="book-price" />' +  '</td>';
+            html += '<td>库存：' + '<input class="input-text" type="text" id="book-stock" />' +  '</td>';
+            html += '<td class="thumb" id="book-cover"><label for="book-image">上传封面</label><input type="file" id="book-image" accept="image/gif" style="position:absolute;clip:rect(0 0 0 0);"></td>';
+            html += '<td><button id="confirm-add">添加</button>&nbsp;<button id="cancel-add">取消</button></td>';
+            html += '</tr>';
+    		$("#tb").append($(html));
+    		$("#div-add-book").empty();
+    	});
+    	
+        // 图片预览
+        $("#tb").on("change", "#book-image", function() {
+              var r = new FileReader();
+              f=document.getElementById('book-image').files[0];
+              r.readAsDataURL(f);
+              r.onload=function (e) {
+                  document.getElementById('book-cover').innerHTML = '<img id="book-img" src="' + this.result + '" />';
+              };
+        });
+        
+        
+        // 保存添加图片按钮
+        var html = '<button id="add-book" style="font-size:18px">添加图书</button>';
+        
+        // 取消添加
+        $("#tb").on("click", "#cancel-add", function() {
+        	$("#new-book").remove();
+        	$("#div-add-book").html(html);
         })
         
-    })
+        // 确认添加
+        $("#tb").on("click", "#confirm-add", function() {
+        	var bookName = $("#book-name").val();
+        	var price = $("#book-price").val();
+        	var stock = $("#book-stock").val();
+        	var img = $("#book-img").attr("src");
+            $.ajax({
+                type:"post",
+                url:"addBook",
+                data:"bookName=" + bookName + "&price=" + price + "&stock=" + stock + "&img=" + img,
+                dataType:"json",
+                success:function(data){
+                    if(data.code == 0) {
+                        alert(data.msg);
+                    }
+                }
+            });
+            
+            // 重新载入当前页
+            loadData($("#currentPage").text());
+            $("#div-add-book").html(html);
+        });
+    }); 
 </script>
 </body>
 </html>

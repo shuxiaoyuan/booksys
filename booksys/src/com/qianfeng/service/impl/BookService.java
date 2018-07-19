@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qianfeng.dao.IBookDao;
+import com.qianfeng.dao.IOrderItemDao;
 import com.qianfeng.entity.Books;
 import com.qianfeng.service.IBookService;
 import com.qianfeng.vo.PageBean;
@@ -16,6 +17,9 @@ import com.qianfeng.vo.PageBean;
 public class BookService  implements IBookService{
 	@Autowired
 	private IBookDao bookDao;
+	
+	@Autowired
+	private IOrderItemDao orderItemDao;
 
 	@Override
 	public PageBean<Books> findByPage(Integer page) {
@@ -75,6 +79,24 @@ public class BookService  implements IBookService{
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void addBook(Books book) {
+        // TODO Auto-generated method stub
+        try {
+            bookDao.add(book);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Integer findCountOfOrderItems(Integer id) {
+        // TODO Auto-generated method stub
+        Integer count = orderItemDao.countByBookId(id);
+        return count;
     }
 
 }

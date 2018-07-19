@@ -72,7 +72,11 @@
                         html += '<td><input type="checkbox" name="bookIds" value="' + item.id + '" /></td>';
                         html += '<td class="title">' + item.bookName + '</td>';
                         html += '<td>' + item.price + '</td>';
-                        html += '<td>' + item.stock + '</td>';
+                        if(parseInt(item.stock) == -1) {
+                            html += '<td>已下架</td>';
+                        } else {
+                            html += '<td>' + item.stock + '</td>';
+                        }
                         html += '<td class="thumb"><img src="' + item.img + '" /></td>';
                         html += '</tr>';
                         
